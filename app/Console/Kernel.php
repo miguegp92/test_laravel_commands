@@ -17,7 +17,9 @@ class Kernel extends ConsoleKernel
         //
 		Commands\ImportCandidates::class,
 		
-		Commands\ImportJobs::class
+		Commands\ImportJobs::class, 
+		
+		Commands\list_jobs::class
     ];
 
     /**
