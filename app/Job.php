@@ -8,4 +8,13 @@ class Job extends Model
 {
     //
 	public $timestamps = false;
+	
+	static function list_candidate_jobs($candidate)
+    {
+			
+		return Job::where('candidate_id', $candidate)->orderBy('start_date', 'desc')->get();
+        //return $this->belongsTo('App\Candidate');
+       
+    }
+	
 }

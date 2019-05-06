@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Candidate;
+use App\Job;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
 
@@ -41,24 +43,34 @@ class list_jobs extends Command
         //
 		$jobs = $this->list_jobs();
 		
-		//$this->info( print_r($jobs[0]) );
+		//$this->info( print_r($jobs) );
 		
 		foreach($jobs as $row){
-			$this->info("\n\n\n {$row->name} {$row->surname} {$row->email} {$row->title} {$row->start_date} to {$row->end_date}");
+			$this->info("\n\n\n {$row['name']} {$row['surname']}, {$row['email']}");
+			foreach($row['jobs'] as $job){
+				$this->info("\n - {$job->title} in {$job->company} from {$job->start_date} to {$job->end_date} ");
+			}
 		}
 		
 		//$this->info( $this->list_jobs() );
     }
-	
+	/**
+		List all candidates with their respective jobs
+	*/
 	public function list_jobs(){
-			$candidates = DB::table('candidates')
-            ->join('jobs', 'candidates.id', '=', 'jobs.candidate_id')
-            ->select('candidates.*', 'jobs.title', 'jobs.company', 'jobs.start_date', 'jobs.end_date')
-			//->where('candidates.id', 1)
-			->orderBy('candidates.id', 'asc')
-			->orderBy('jobs.start_date', 'desc')
-            ->get()->toArray();
 			
-			return $candidates;
+			$collection = [];
+			$candidates = Candidate::all();
+			
+			foreach($candidates as $candidate){
+				$collection[] = [
+					'name' => $candidate->name,
+					'surname' => $candidate->surname,
+					'email' => $candidate->email,
+					'jobs' => Job::list_candidate_jobs($candidate->id)
+				];
+			}
+			return $collection;
+			
 	}
 }
