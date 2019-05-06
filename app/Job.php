@@ -9,6 +9,9 @@ class Job extends Model
     //
 	public $timestamps = false;
 	
+	/**
+		List all jobs of a candidate
+	*/
 	static function list_candidate_jobs($candidate)
     {
 			

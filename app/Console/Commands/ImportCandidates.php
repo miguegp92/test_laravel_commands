@@ -43,6 +43,7 @@ class ImportCandidates extends Command
 		$file = "import/candidates.csv";
 
 		if(file_exists($file)){
+			$this->info("\n######### IMPORTING CANDIDATES ROWS #########");
 			$file = fopen($file, 'r');
 			$candidates = 0;
 			while($data = fgetcsv($file)){

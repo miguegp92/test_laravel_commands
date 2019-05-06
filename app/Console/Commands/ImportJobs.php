@@ -43,6 +43,7 @@ class ImportJobs extends Command
 		$file = "import/jobs.csv";
 		
 		if(file_exists($file)){
+			$this->info("\n######### IMPORTING JOBS ROWS #########");
 			$file = fopen($file, 'r');
 			$jobs = 0;
 			while($data = fgetcsv($file)){
